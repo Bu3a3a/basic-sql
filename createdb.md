@@ -1,3 +1,4 @@
+```SQL
 m0=> CREATE TABLE Classes (
 m0(> class varchar(50) CONSTRAINT firstkey PRIMARY KEY,
 m0(> type  varchar(2)  NOT NULL,
@@ -263,3 +264,4 @@ m0->         WHERE c1 < 500 AND c2 LIKE 'abcd%';
    Index Cond: (c1 < 500)
    Filter: (c2 ~~ 'abcd%'::text)
 (3 rows)
+```
