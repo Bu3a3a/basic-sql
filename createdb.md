@@ -19,13 +19,7 @@ bore    real    NULL,
 displacement int NULL
 );
 CREATE TABLE
-m0=> /dt
-m0-> ;
-ERROR:  syntax error at or near "/"
-LINE 1: /dt
-        ^
-m0=> \d+ tables
-Did not find any relation named "tables".
+
 m0=> \d+
                      List of relations
  Schema |  Name   | Type  |  Owner  |  Size   | Description
@@ -86,41 +80,6 @@ m0=> SELECT * FROM battles;
  #Cuba62b | 1962-10-25
 (2 rows)
 
-m0=> hash('Peter')
-m0-> ;
-ERROR:  syntax error at or near "hash"
-LINE 1: hash('Peter')
-        ^
-m0=> f('Peter')
-;
-ERROR:  syntax error at or near "f"
-LINE 1: f('Peter')
-        ^
-m0=> md5('Peter')
-m0-> ;
-ERROR:  syntax error at or near "md5"
-LINE 1: md5('Peter')
-        ^
-m0=> SELECT md5('Peter')
-;
-               md5
-----------------------------------
- 6fa95b1427af77b3d769ae9cb853382f
-(1 row)
-
-m0=> SELECT f('Peter')
-;
-ERROR:  function f(unknown) does not exist
-LINE 1: SELECT f('Peter')
-               ^
-HINT:  No function matches the given name and argument types. You might need to           add explicit type casts.
-m0=> SELECT hash('Peter')
-;
-ERROR:  function hash(unknown) does not exist
-LINE 1: SELECT hash('Peter')
-               ^
-HINT:  No function matches the given name and argument types. You might need to           add explicit type casts.
-m0=>
 m0=> INSERT INTO battles
 VALUES ('Guadalcanal', '1942-11-15'), ('North Atlantic', '1941-05-25'), ('North           Cape', '1943-12-26'), ('Surigao Strait', '1944-10-25');
 INSERT 0 4
@@ -149,6 +108,7 @@ m0=> SELECT * FROM Battles;
 m0=> INSERT INTO outcomes
 VALUES ('Bismarck', 'North Atlantic', 'sunk'), ('California', 'Guadalcanal', 'da          maged'), ('CAlifornia', 'Surigao Strait','ok'), ('Duke of York', 'North Cape', '          ok');
 INSERT 0 4
+
 m0=> SELECT * FROM outcomes
 m0-> ;
      ship     |     battle     | result
@@ -160,15 +120,14 @@ m0-> ;
 (4 rows)
 
 m0=> INSERT INTO outcomes
-VALUES ('Fuso', 'Surigao Strait', 'sunk'), ('Hood', 'North Atlantic', 'sunk'), (          'King George V', 'North Atlantic','ok'), ('Kirishima', 'Guadalcanal', 'sunk');            INSERT 0 4
+VALUES ('Fuso', 'Surigao Strait', 'sunk'), ('Hood', 'North Atlantic', 'sunk'), ('King George V', 'North Atlantic','ok'), ('Kirishima', 'Guadalcanal', 'sunk');            
+INSERT 0 4
+
 m0=> INSERT INTO outcomes
 m0-> VALUES ('dgsd', 'dsgfsdfg', 'dsgsd');
-ERROR:  insert or update on table "outcomes" violates foreign key constraint "ou          tcomes_battle_fkey"
+ERROR:  insert or update on table "outcomes" violates foreign key constraint "outcomes_battle_fkey"
 DETAIL:  Key (battle)=(dsgfsdfg) is not present in table "battles".
-m0=> EXPLAIN SELECT * FROM foo;
-ERROR:  relation "foo" does not exist
-LINE 1: EXPLAIN SELECT * FROM foo;
-                              ^
+
 m0=> EXPLAIN SELECT * FROM outcomes;
                          QUERY PLAN
 -------------------------------------------------------------
@@ -176,14 +135,10 @@ m0=> EXPLAIN SELECT * FROM outcomes;
 (1 row)
 
 m0=> EXPLAIN ANALYZE SELECT * FROM outcomes;
-m0=> EXPLAIN ANALYZE SELECT * FROM outcomes;
+
 m0=> CREATE TABLE foo (c1 integer, c2 text);
 CREATE TABLE
-m0=> INSERT INTO foo
-m0->   SELECT i, md5(random()::text)
-m0->   FROM generate_series(1, 1000000) AS i;
-^CCancel request sent
-ERROR:  canceling statement due to user request
+
 m0=> INSERT INTO foo
   SELECT i, md5(random()::text)
   FROM generate_series(1, 100000) AS i;
@@ -205,6 +160,7 @@ m0=> INSERT INTO foo
 m0->   SELECT i, md5(random()::text)
 m0->   FROM generate_series(1, 10) AS i;
 INSERT 0 10
+
 m0=> EXPLAIN SELECT * FROM foo;
                          QUERY PLAN
 ------------------------------------------------------------
@@ -228,12 +184,6 @@ m0=> EXPLAIN SELECT * FROM foo WHERE c1 > 500;
 
 m0=> CREATE INDEX ON foo(c1);
 CREATE INDEX
-m0=> EXPLAIN SELECT * FROM foo WHERE c1 > 500;
-                        QUERY PLAN
------------------------------------------------------------
- Seq Scan on foo  (cost=0.00..5971.12 rows=99533 width=37)
-   Filter: (c1 > 500)
-(2 rows)
 
 m0=> EXPLAIN SELECT * FROM foo WHERE c1 < 500;
                                 QUERY PLAN
