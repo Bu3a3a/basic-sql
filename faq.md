@@ -30,6 +30,8 @@ https://youtu.be/dGwkG2VyDTY?t=1333
 
 You can usually find them here: /etc/postgresql/version/main
 
+https://postgrespro.ru/docs/postgresql/9.6/auth-methods.html#auth-peer
+
 For example:
 
 ```shell
