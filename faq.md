@@ -32,7 +32,7 @@ You can usually find them here: /etc/postgresql/version/main
 
 For example:
 
-```bash
+```shell
 pi@raspberrypi:~ $ cd /etc/postgresql/9.4/main
 pi@raspberrypi:/etc/postgresql/9.4/main $ ls -al
 total 56
